@@ -1,15 +1,13 @@
+import { GetTag, WithTag } from "@mikea/ts-types/src/Tag";
 import * as t from "./io";
 
 type HttpMethod = "GET" | "POST";
 
 type HttpContentType = "text/javascript" | "text/json";
 
-type RequestTag<T> = { _req?: T };
-type ResponseTag<T> = { _res?: T };
-
 type Types<TRequest, TResponse> = {
-  request?: t.Type<TRequest>;
-  response?: t.Type<TResponse>;
+  request?: t.Decoder<TRequest>;
+  response?: t.Decoder<TResponse>;
 };
 
 type EndpointParms<TRequest, TResponse> = {
@@ -19,11 +17,11 @@ type EndpointParms<TRequest, TResponse> = {
 } & Partial<Types<TRequest, TResponse>>;
 
 export type Endpoint<TRequest, TResponse> = EndpointParms<TRequest, TResponse> &
-  RequestTag<TRequest> &
-  ResponseTag<TResponse>;
+  WithTag<"_req", TRequest> &
+  WithTag<"_res", TResponse>;
 
-export type EndpointRequestType<EndpointType extends Endpoint<unknown, unknown>> = NonNullable<EndpointType["_req"]>;
-export type EndpointResponseType<EndpointType extends Endpoint<unknown, unknown>> = NonNullable<EndpointType["_res"]>;
+export type ResponseType<EndpointType extends Endpoint<unknown, unknown>> = GetTag<"_res", EndpointType>;
+export type RequestType<EndpointType extends Endpoint<unknown, unknown>> = GetTag<"_req", EndpointType>;
 
 type GetEndpointParams<TRequest, TResponse> = Omit<EndpointParms<TRequest, TResponse>, "method"> & { method: "GET" };
 type NotGet = Exclude<HttpMethod, "GET">;
@@ -46,10 +44,4 @@ export function ioEndpoint<TRequest, TResponse>(
   params: IOEndpointParams<TRequest, TResponse>,
 ): Endpoint<TRequest, TResponse> {
   return params;
-}
-
-export class HttpError extends Error {
-  constructor(public readonly status: 404, message?: string) {
-    super(message);
-  }
 }

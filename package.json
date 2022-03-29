@@ -8,7 +8,7 @@
     "format": "prettier --write '**/*.{js,css,json,md,ts}'",
     "test": "npx mocha",
     "lint": "npx eslint src",
-    "watch": "npx tsc --build --watch ."
+    "watch": "rm -rf *.tsbuildinfo && npx tsc --build --watch ."
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
   "homepage": "https://github.com/mikea/cfw-utils#readme",
   "devDependencies": {
     "@cloudflare/workers-types": "^3.4.0",
+    "@mikea/ts-types": "^0.4.0",
     "@types/chai": "^4.3.0",
     "@types/mocha": "^9.1.0",
     "@typescript-eslint/eslint-plugin": "^5.17.0",

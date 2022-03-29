@@ -1,6 +1,5 @@
 {
-    "extension": [".ts"],
-    "spec": ["src/**/*.test.ts"],
-    "require": "ts-node/esm"
-  }
-  
+  "extension": [".ts"],
+  "spec": ["src/**/*.test.ts"],
+  "require": "ts-node/esm"
+}

@@ -1,4 +1,10 @@
-import { Endpoint, EndpointRequestType, EndpointResponseType, HttpError } from "./endpoint";
+import { Endpoint, RequestType, ResponseType } from "./endpoint";
+
+export class HttpError extends Error {
+  constructor(public readonly status: 404, message?: string) {
+    super(message);
+  }
+}
 
 export type EndpointHandler<TRequest, TResponse, TArg = unknown> = (
   request: TRequest,
@@ -6,13 +12,14 @@ export type EndpointHandler<TRequest, TResponse, TArg = unknown> = (
   arg: TArg,
 ) => Promise<TResponse | HttpError | Error>;
 
-type EndpointWithHandler<TRequest, TResponse> = [Endpoint<TRequest, TResponse>, EndpointHandler<TRequest, TResponse>];
 
 export type Handler<EndpointType extends Endpoint<unknown, unknown>, TArg = unknown> = EndpointHandler<
-  EndpointRequestType<EndpointType>,
-  EndpointResponseType<EndpointType>,
+  RequestType<EndpointType>,
+  ResponseType<EndpointType>,
   TArg
 >;
+
+type EndpointWithHandler<TRequest, TResponse> = [Endpoint<TRequest, TResponse>, EndpointHandler<TRequest, TResponse>];
 
 export class Router<TArg = unknown> {
   private readonly endpoints: Array<EndpointWithHandler<unknown, unknown>> = [];
@@ -52,12 +59,10 @@ export class Router<TArg = unknown> {
     if (endpoint.request) {
       const validation = endpoint.request.decode(body);
       if (validation instanceof Error) {
-        console.error(`error parsing: ${validation}`);
         return new Response("", { status: 400 });
       }
     }
     const response = await handler(body, request, arg);
-    // todo: validate response
     const responseContentType = endpoint.responseContentType ?? "text/json";
 
     if (response instanceof HttpError) {
@@ -65,11 +70,14 @@ export class Router<TArg = unknown> {
     }
 
     if (response instanceof Error) {
-      console.error(response);
       return new Response("", { status: 500 });
     }
 
-    return new Response(stringify(response, responseContentType), { headers: { "content-type": responseContentType } });
+    // todo: validate response
+
+    return new Response(stringify(response, responseContentType), {
+      headers: { "content-type": responseContentType },
+    });
   }
 }
 
