@@ -2,12 +2,13 @@ import { GetTag, WithTag } from "@mikea/ts-types/src/Tag";
 import { Decoder } from "./decoder";
 
 type HttpMethod = "GET" | "POST";
+type NotGet = Exclude<HttpMethod, "GET">;
 
 type HttpContentType = "text/javascript" | "text/json";
 
 type Decoders<TRequest, TResponse> = {
-  request?: Decoder<TRequest>;
-  response?: Decoder<TResponse>;
+  request: Decoder<TRequest>;
+  response: Decoder<TResponse>;
 };
 
 type EndpointParms<TRequest, TResponse> = {
@@ -23,8 +24,8 @@ export type Endpoint<TRequest, TResponse> = EndpointParms<TRequest, TResponse> &
 export type ResponseType<EndpointType extends Endpoint<unknown, unknown>> = GetTag<"_res", EndpointType>;
 export type RequestType<EndpointType extends Endpoint<unknown, unknown>> = GetTag<"_req", EndpointType>;
 
-type GetEndpointParams<TRequest, TResponse> = Omit<EndpointParms<TRequest, TResponse>, "method"> & { method: "GET" };
-type NotGet = Exclude<HttpMethod, "GET">;
+// GET doesn't have body.
+type GetEndpointParams<TRequest, TResponse> = Omit<EndpointParms<TRequest, TResponse>, "method" | "request"> & { method: "GET" };
 type NotGetEndpointParams<TRequest, TResponse> = Omit<EndpointParms<TRequest, TResponse>, "method"> & {
   method?: NotGet;
 };

@@ -43,7 +43,7 @@ Endpoint declaration defines its http properties and holds type information for 
 
 ```typescript
 import { endpoint, RequestType, ResponseType } from "./endpoint";
-// POST be default.
+// POST is default.
 export const Hello = endpoint<IHelloRequest, IHelloResponse>({
   path: "/hello",
 });
