@@ -5,7 +5,7 @@ type HttpMethod = "GET" | "POST";
 
 type HttpContentType = "text/javascript" | "text/json";
 
-type Types<TRequest, TResponse> = {
+type Decoders<TRequest, TResponse> = {
   request?: Decoder<TRequest>;
   response?: Decoder<TResponse>;
 };
@@ -14,7 +14,7 @@ type EndpointParms<TRequest, TResponse> = {
   path: string;
   method?: HttpMethod;
   responseContentType?: HttpContentType;
-} & Partial<Types<TRequest, TResponse>>;
+} & Partial<Decoders<TRequest, TResponse>>;
 
 export type Endpoint<TRequest, TResponse> = EndpointParms<TRequest, TResponse> &
   WithTag<"_req", TRequest> &
@@ -39,8 +39,8 @@ export function endpoint<TRequest, TResponse>(
   return params;
 }
 
-type IOEndpointParams<TRequest, TResponse> = EndpointParms<TRequest, TResponse> & Types<TRequest, TResponse>;
-export function ioEndpoint<TRequest, TResponse>(
+type IOEndpointParams<TRequest, TResponse> = EndpointParms<TRequest, TResponse> & Decoders<TRequest, TResponse>;
+export function jsonEndpoint<TRequest, TResponse>(
   params: IOEndpointParams<TRequest, TResponse>,
 ): Endpoint<TRequest, TResponse> {
   return params;

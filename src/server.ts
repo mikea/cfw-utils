@@ -21,13 +21,13 @@ export type Handler<EndpointType extends Endpoint<unknown, unknown>, TArg = unkn
 
 type EndpointWithHandler<TRequest, TResponse> = [Endpoint<TRequest, TResponse>, EndpointHandler<TRequest, TResponse>];
 
-export class Router<TArg = unknown> {
+export class Server<TArg = unknown> {
   private readonly endpoints: Array<EndpointWithHandler<unknown, unknown>> = [];
 
   public add<TRequest, TResponse>(
     endpoint: Endpoint<TRequest, TResponse>,
     handler: EndpointHandler<TRequest, TResponse, TArg>,
-  ): Router<TArg> {
+  ): Server<TArg> {
     this.endpoints.push([endpoint, handler] as EndpointWithHandler<unknown, unknown>);
     return this;
   }
@@ -85,6 +85,6 @@ function stringify<TResponse>(response: TResponse, responseContentType: string):
   return responseContentType === "text/json" ? JSON.stringify(response) : String(response);
 }
 
-export function router(): Router {
-  return new Router();
+export function router(): Server {
+  return new Server();
 }

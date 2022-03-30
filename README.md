@@ -36,3 +36,64 @@ const v1: IModel | Error = model.decode({a: "1", b: 2 });
 const v2: IModel | Error = model.decode({a: "1" });
 
 ```
+
+### Endpoints
+
+Endpoint declaration defines its http properties and holds type information for request and response:
+
+```typescript
+import { endpoint, RequestType, ResponseType } from "./endpoint";
+// POST be default.
+export const Hello = endpoint<IHelloRequest, IHelloResponse>({
+  path: "/hello",
+});
+
+// request and response types can be extracted back:
+let request: RequestType<typeof Hello>;
+let response: ResponseType<typeof Hello>;
+```
+
+Decoders can be specified, which will validate the request/response:
+
+```typescript
+import { endpoint, RequestType, ResponseType } from "./endpoint";
+
+const request = d.struct({ name: d.string });
+const response = d.struct({ message: d.string });
+
+export const Hello = endpoint({
+  path: "/hello",
+  request,
+  response,
+});
+```
+
+#### Calling endpoints
+
+Simple typed wrapper around fetch() to call endpoints of distributed objects.
+
+```typescript
+const r: IHelloResponse | Error = call(Hello, { name: "cfw-utils" });
+```
+
+#### Serving endpoints
+
+Endpoints can be handled in workers and distributed objects:
+
+```typescript
+import { Server, Handler } from "./server";
+
+// define endpoint handler
+
+const helloHandler: Handler<typeof Hello, Env> = async (request, httpRequest, eng) => 
+    ({ message: `Hello ${request.name}`});
+
+const server = new Server().add(Hello, helloHandler);
+
+export default {
+  fetch: (request: Request, env: Env) => {
+    return server.fetch(request, env);
+  },
+};
+
+```
