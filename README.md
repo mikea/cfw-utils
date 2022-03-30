@@ -12,9 +12,27 @@ Other library principles:
 
 https://github.com/mikea/ts-types is used heavily for type machinery.
 
-Provided services:
+## Provided services
 
-- json schema validation: io.ts (inspired by io-ts since it is too big nowadays)
+- json schema validation: decoder.ts
 - declarative endpoints: endpoints.ts
 - router to serve endpoints: router.ts
 - calling endpoints: call.ts
+
+### Decoder
+
+Decoder validates json data structures.  Inspired by io-ts, but tiny and tree shakeable.
+
+```typescript
+import * as d from "./decoder";
+// build decoder up from primitives
+const model = d.struct({ a: d.string, b: d.number });
+// extract Typescript interface definition from the validator
+type IModel = d.TypeOf<typeof modelValidator>;
+
+// objects that pass validation will be cast to the IModel type.
+const v1: IModel | Error = model.decode({a: "1", b: 2 });
+// objects that don't will decode to Error.
+const v2: IModel | Error = model.decode({a: "1" });
+
+```

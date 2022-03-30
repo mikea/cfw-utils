@@ -1,4 +1,5 @@
 import { GetTag, WithTag } from "@mikea/ts-types/src/Tag";
+import { Array2 } from "@mikea/ts-types/src/Arrays";
 
 export interface Decoder<T> {
   readonly decode: (t: unknown) => T | Error;
@@ -38,9 +39,7 @@ export const array = <T>(elem: Type<T>): Type<Array<T>> => ({
   },
 });
 
-// 2+ members
-type UnknownArray2 = [Unknown, Unknown, ...Array<Unknown>];
-export const union = <CS extends UnknownArray2>(members: CS): Type<TypeOf<CS[number]>> => ({
+export const union = <CS extends Array2<Unknown>>(members: CS): Type<TypeOf<CS[number]>> => ({
   decode: (t) => {
     for (const m of members) {
       const result = m.decode(t);

@@ -1,13 +1,13 @@
 import { GetTag, WithTag } from "@mikea/ts-types/src/Tag";
-import * as t from "./io";
+import { Decoder } from "./decoder";
 
 type HttpMethod = "GET" | "POST";
 
 type HttpContentType = "text/javascript" | "text/json";
 
 type Types<TRequest, TResponse> = {
-  request?: t.Decoder<TRequest>;
-  response?: t.Decoder<TResponse>;
+  request?: Decoder<TRequest>;
+  response?: Decoder<TResponse>;
 };
 
 type EndpointParms<TRequest, TResponse> = {

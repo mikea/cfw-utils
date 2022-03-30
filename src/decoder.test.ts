@@ -1,8 +1,8 @@
 import { assert } from "chai";
-import * as t from "./io";
+import * as d from "./decoder";
 
 describe("boolean", () => {
-  const model = t.boolean;
+  const model = d.boolean;
 
   it("validates correctly", () => {
     assert.equal(model.decode(true), true);
@@ -12,7 +12,7 @@ describe("boolean", () => {
 });
 
 describe("string", () => {
-  const model = t.string;
+  const model = d.string;
 
   it("validates correctly", () => {
     assert.equal(model.decode("test"), "test");
@@ -21,7 +21,7 @@ describe("string", () => {
 });
 
 describe("literal", () => {
-  const model = t.literal("lit");
+  const model = d.literal("lit");
 
   it("validates correctly", () => {
     assert.equal(model.decode("lit"), "lit");
@@ -31,7 +31,7 @@ describe("literal", () => {
 });
 
 describe("union", () => {
-  const model = t.union([t.string, t.boolean]);
+  const model = d.union([d.string, d.boolean]);
 
   it("validates correctly", () => {
     assert.equal(model.decode("test"), "test");
@@ -41,7 +41,7 @@ describe("union", () => {
 });
 
 describe("record", () => {
-  const model = t.record(t.string, t.boolean);
+  const model = d.record(d.string, d.boolean);
 
   it("validates correctly", () => {
     assert.deepEqual(model.decode({ test: true }), { test: true });
@@ -51,7 +51,7 @@ describe("record", () => {
 });
 
 describe("struct", () => {
-  const model = t.struct({ a: t.string, b: t.number });
+  const model = d.struct({ a: d.string, b: d.number });
 
   it("validates correctly", () => {
     assert.deepEqual(model.decode({ a: "1", b: 2 }), { a: "1", b: 2 });
@@ -63,7 +63,7 @@ describe("struct", () => {
 });
 
 describe("array", () => {
-  const model = t.array(t.number);
+  const model = d.array(d.number);
 
   it("validates correctly", () => {
     assert.deepEqual(model.decode([1, 2, 3]), [1, 2, 3]);
