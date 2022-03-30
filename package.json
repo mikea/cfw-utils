@@ -1,5 +1,5 @@
 {
-  "name": "cfw-utils",
+  "name": "@mikea/cfw-utils",
   "version": "0.1.0",
   "description": "cloudflare worker utils",
   "scripts": {
