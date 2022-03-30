@@ -1,6 +1,6 @@
 # cfw-utils
 
-Small supporting library for writing application servers on CloudFlare Workers. 
+Small supporting library for writing application servers on CloudFlare Workers.
 
 Primary goal of the library is to encourage writing strictily typed code.
 
@@ -21,7 +21,7 @@ https://github.com/mikea/ts-types is used heavily for type machinery.
 
 ### Decoder
 
-Decoder validates json data structures.  Inspired by io-ts, but tiny and tree shakeable.
+Decoder validates json data structures. Inspired by io-ts, but tiny and tree shakeable.
 
 ```typescript
 import * as d from "./decoder";
@@ -31,10 +31,9 @@ const model = d.struct({ a: d.string, b: d.number });
 type IModel = d.TypeOf<typeof modelValidator>;
 
 // objects that pass validation will be cast to the IModel type.
-const v1: IModel | Error = model.decode({a: "1", b: 2 });
+const v1: IModel | Error = model.decode({ a: "1", b: 2 });
 // objects that don't will decode to Error.
-const v2: IModel | Error = model.decode({a: "1" });
-
+const v2: IModel | Error = model.decode({ a: "1" });
 ```
 
 ### Endpoints
@@ -85,8 +84,9 @@ import { Server, Handler } from "./server";
 
 // define endpoint handler
 
-const helloHandler: Handler<typeof Hello, Env> = async (request, httpRequest, eng) => 
-    ({ message: `Hello ${request.name}`});
+const helloHandler: Handler<typeof Hello, Env> = async (request, httpRequest, eng) => ({
+  message: `Hello ${request.name}`,
+});
 
 const server = new Server().add(Hello, helloHandler);
 
@@ -95,5 +95,4 @@ export default {
     return server.fetch(request, env);
   },
 };
-
 ```

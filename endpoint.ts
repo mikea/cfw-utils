@@ -1,4 +1,4 @@
-import { GetTag, WithTag } from "@mikea/ts-types/src/Tag";
+import { GetTag, WithTag } from "@mikea/ts-types/Tag";
 import { Decoder } from "./decoder";
 
 type HttpMethod = "GET" | "POST";
@@ -25,7 +25,9 @@ export type ResponseType<EndpointType extends Endpoint<unknown, unknown>> = GetT
 export type RequestType<EndpointType extends Endpoint<unknown, unknown>> = GetTag<"_req", EndpointType>;
 
 // GET doesn't have body.
-type GetEndpointParams<TRequest, TResponse> = Omit<EndpointParms<TRequest, TResponse>, "method" | "request"> & { method: "GET" };
+type GetEndpointParams<TRequest, TResponse> = Omit<EndpointParms<TRequest, TResponse>, "method" | "request"> & {
+  method: "GET";
+};
 type NotGetEndpointParams<TRequest, TResponse> = Omit<EndpointParms<TRequest, TResponse>, "method"> & {
   method?: NotGet;
 };

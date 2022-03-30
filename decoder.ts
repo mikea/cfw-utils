@@ -1,5 +1,5 @@
-import { GetTag, WithTag } from "@mikea/ts-types/src/Tag";
-import { Array2 } from "@mikea/ts-types/src/Arrays";
+import { GetTag, WithTag } from "@mikea/ts-types/Tag";
+import { Array2 } from "@mikea/ts-types/Arrays";
 
 export interface Decoder<T> {
   readonly decode: (t: unknown) => T | Error;
@@ -51,7 +51,6 @@ export const union = <CS extends Array2<Unknown>>(members: CS): Type<TypeOf<CS[n
     return new Error("union expected");
   },
 });
-
 
 export function record<K extends Type<string>, V extends Unknown>(k: K, v: V): Type<Record<TypeOf<K>, TypeOf<V>>> {
   return {

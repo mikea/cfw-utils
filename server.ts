@@ -12,7 +12,6 @@ export type EndpointHandler<TRequest, TResponse, TArg = unknown> = (
   arg: TArg,
 ) => Promise<TResponse | HttpError | Error>;
 
-
 export type Handler<EndpointType extends Endpoint<unknown, unknown>, TArg = unknown> = EndpointHandler<
   RequestType<EndpointType>,
   ResponseType<EndpointType>,
