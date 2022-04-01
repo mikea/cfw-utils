@@ -83,3 +83,18 @@ export const struct = <A>(properties: { [K in keyof A]: Type<A[K]> }): Type<{
     return t as { [K in keyof A]: A[K] };
   },
 });
+
+export const partial = <A>(properties: { [K in keyof A]: Type<A[K]> }): Type<{
+  [K in keyof A]?: A[K];
+}> => ({
+  decode: (t) => {
+    if (typeof t !== "object" || t === null) return new Error("object expected");
+    for (const key of Object.keys(properties)) {
+      if (!(key in t)) continue;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-explicit-any
+      const v = properties[key as keyof A].decode((t as any)[key]);
+      if (v instanceof Error) return v;
+    }
+    return t as { [K in keyof A]?: A[K] };
+  },
+});

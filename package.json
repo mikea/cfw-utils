@@ -1,6 +1,6 @@
 {
   "name": "@mikea/cfw-utils",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "cloudflare worker utils",
   "scripts": {
     "build": "npm run clean && npx tsc -b .",
