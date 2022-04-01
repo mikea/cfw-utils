@@ -1,4 +1,5 @@
 import { Endpoint, RequestType, ResponseType } from "./endpoint";
+import { checked } from "./util";
 
 export class HttpError extends Error {
   constructor(public readonly status: 404, message?: string) {
@@ -54,7 +55,10 @@ export class Server<TArg = unknown> {
   ): Promise<Response> {
     const method = endpoint.method ?? "POST";
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const body = method == "GET" ? (undefined as any as TRequest) : await request.json<TRequest>();
+    const body = method == "GET" ? (undefined as any as TRequest) : await checked(() => request.json<TRequest>());
+    if (body instanceof Error) {
+      return new Response("", { status: 400 });
+    }
     if (endpoint.request) {
       const validation = endpoint.request.decode(body);
       if (validation instanceof Error) {
