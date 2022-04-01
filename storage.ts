@@ -22,3 +22,7 @@ export function cell<T>(obj: WithState, name: string): ICell<T> {
     },
   };
 }
+
+export function getFromString(ns: DurableObjectNamespace, id: string): DurableObjectStub {
+  return ns.get(ns.idFromString(id));
+}
