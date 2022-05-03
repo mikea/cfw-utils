@@ -1,5 +1,5 @@
 import { assert } from "chai";
-import * as d from "./decoder";
+import * as d from "./decoder.js";
 
 describe("boolean", () => {
   const model = d.boolean;

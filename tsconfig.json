@@ -9,9 +9,9 @@
     "moduleResolution": "node",
     "outDir": "dist",
     "preserveConstEnums": true,
-    "esModuleInterop": true,
     "composite": true,
-    "rootDir": "."
+    "rootDir": ".",
+    "module": "ESNext"
   },
   "include": ["*.ts"]
 }

@@ -1,6 +1,6 @@
 import { assert } from "chai";
-import { ISAACGenerator } from "./isaacRandom";
-import { newCryptoRandom32, newRandom32, real, realx, rnd } from "./random";
+import { ISAACGenerator } from "./isaacRandom.js";
+import { newCryptoRandom32, newRandom32, real, realx, rnd } from "./random.js";
 
 describe("ISAACGenerator", () => {
   it("produces test hashes", () => {

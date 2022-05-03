@@ -1,5 +1,5 @@
-import { ISAACGenerator } from "./isaacRandom";
-import { MersenneTwister } from "./mersenneTwister";
+import { ISAACGenerator } from "./isaacRandom.js";
+import { MersenneTwister } from "./mersenneTwister.js";
 
 export interface IRandom32 {
   // 32-bit unsigned random
