@@ -1,5 +1,5 @@
-import { Endpoint, RequestType, ResponseType } from "./endpoint";
-import { checked } from "./util";
+import { Endpoint, RequestType, ResponseType } from "./endpoint.js";
+import { checked } from "./util.js";
 
 export class HttpError extends Error {
   constructor(public readonly status: 404, message?: string) {

@@ -1,5 +1,5 @@
 import { GetTag, WithTag } from "@mikea/ts-types/Tag";
-import { Decoder } from "./decoder";
+import { Decoder } from "./decoder.js";
 
 type HttpMethod = "GET" | "POST";
 type NotGet = Exclude<HttpMethod, "GET">;

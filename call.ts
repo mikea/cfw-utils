@@ -1,4 +1,4 @@
-import { Endpoint } from "./endpoint";
+import { Endpoint } from "./endpoint.js";
 
 export async function call<TRequest, TResponse>(
   fetcher: Fetcher,
